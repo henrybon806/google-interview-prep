@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Google Interview Prep</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f6f8;
+      --paper: #ffffff;
+      --ink: #121820;
+      --muted: #52606d;
+      --line: #d8dee4;
+      --line-strong: #aab4be;
+      --accent: #e63b2e;
+      --accent-soft: #ffe0dc;
+      --teal: #087d75;
+      --teal-soft: #d7f0ec;
+      --gold: #f4bd32;
+      --gold-soft: #fff0bd;
+      --code: #17212b;
+      --code-ink: #f4f8fb;
+      --shadow: 0 14px 38px rgba(20, 31, 43, .08);
+      --radius: 18px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0e1419;
+        --paper: #161e25;
+        --ink: #f1f5f7;
+        --muted: #a7b3bd;
+        --line: #2e3a44;
+        --line-strong: #56636d;
+        --accent: #ff6b5f;
+        --accent-soft: #45221f;
+        --teal: #55c7bb;
+        --teal-soft: #163b38;
+        --gold: #f5c759;
+        --gold-soft: #3d3215;
+        --code: #080c0f;
+        --code-ink: #f4f8fb;
+        --shadow: 0 18px 46px rgba(0, 0, 0, .28);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 280px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .hero {
+      padding: 56px 0 34px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 40px; align-items: end; }
+    .kicker {
+      display: inline-flex; align-items: center; gap: 9px;
+      margin: 0 0 16px; color: var(--accent); font-weight: 800; font-size: 14px;
+    }
+    .kicker::before { content: ""; width: 28px; height: 3px; background: currentColor; border-radius: 2px; }
+    h1 {
+      margin: 0; max-width: 780px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(46px, 8vw, 88px); line-height: .94; letter-spacing: -.055em; font-weight: 700;
+    }
+    .lead { margin: 22px 0 0; max-width: 680px; font-size: clamp(18px, 2.2vw, 23px); color: var(--muted); }
+    .signal {
+      background: var(--code); color: var(--code-ink); padding: 24px; border-radius: 6px 28px 6px 6px;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .signal::after { content: ""; position: absolute; width: 100px; height: 8px; right: 0; top: 0; background: var(--gold); }
+    .signal-label { font: 700 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; color: #9fb0bd; }
+    .signal strong { display: block; font: 700 34px/1.05 Georgia, serif; margin: 12px 0 8px; }
+    .signal p { margin: 0; color: #d2dce3; font-size: 14px; }
+    .action-strip { display: flex; gap: 10px; flex-wrap: wrap; padding: 18px 0 0; }
+    .btn {
+      border: 1px solid var(--line-strong); background: var(--paper); padding: 11px 16px; border-radius: 999px;
+      font-weight: 750; cursor: pointer; transition: background .18s, border-color .18s, color .18s;
+    }
+    .btn:hover, .btn:focus-visible { border-color: var(--ink); outline: none; }
+    .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .btn.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .nav-wrap { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 0; }
+    .nav a { white-space: nowrap; text-decoration: none; padding: 8px 12px; font-size: 14px; font-weight: 700; border-radius: 999px; color: var(--muted); }
+    .nav a:hover, .nav a:focus-visible { background: var(--paper); color: var(--ink); outline: none; }
+    section { padding: 52px 0; border-bottom: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: end; margin-bottom: 28px; }
+    h2 { margin: 0; font: 700 clamp(32px, 5vw, 50px)/1 Georgia, serif; letter-spacing: -.035em; }
+    .section-head p { margin: 0; color: var(--muted); max-width: 580px; }
+    .tonight-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .block { background: var(--paper); padding: 22px; min-height: 220px; }
+    .block .num { font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--accent); }
+    .block h3 { margin: 34px 0 10px; font-size: 20px; line-height: 1.15; }
+    .block p { margin: 0; color: var(--muted); font-size: 14px; }
+    .mock-card { display: grid; grid-template-columns: 250px 1fr; background: var(--code); color: var(--code-ink); border-radius: 8px 32px 8px 8px; overflow: hidden; box-shadow: var(--shadow); }
+    .timer-panel { padding: 28px; border-right: 1px solid #35424d; display: flex; flex-direction: column; justify-content: space-between; }
+    .timer { font: 700 clamp(42px, 7vw, 64px)/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: -.07em; margin: 14px 0 24px; }
+    .timer-actions { display: flex; gap: 8px; }
+    .timer-actions .btn { padding: 8px 12px; background: transparent; border-color: #53616d; color: #eef4f7; }
+    .timer-actions .btn:hover { border-color: #fff; }
+    .prompt-panel { padding: 30px; }
+    .prompt-tag { display: inline-block; color: var(--gold); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; letter-spacing: .07em; }
+    .prompt-panel h3 { margin: 10px 0 10px; font-size: clamp(22px, 3vw, 32px); line-height: 1.12; }
+    .prompt-panel p { margin: 0 0 18px; color: #c2cdd5; }
+    .followup { border-top: 1px solid #35424d; padding-top: 16px; color: #f2f6f8; }
+    .followup b { color: var(--gold); }
+    .draw { margin-top: 22px; background: var(--gold); color: #161616; border: 0; }
+    .draw:hover { background: #fff; color: #161616; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .filter { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 8px 13px; cursor: pointer; font-size: 13px; font-weight: 750; }
+    .filter[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .question-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .q-card { background: var(--paper); border: 1px solid var(--line); padding: 20px; border-radius: 4px 18px 4px 4px; display: flex; flex-direction: column; min-height: 236px; }
+    .q-top { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; }
+    .q-index { color: var(--accent); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .difficulty { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; padding: 4px 7px; background: var(--gold-soft); color: var(--ink); border-radius: 3px; }
+    .q-card h3 { margin: 17px 0 8px; font-size: 21px; line-height: 1.2; }
+    .q-card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .pattern { margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--teal); font-weight: 800; font-size: 13px; }
+    .source { margin-top: auto; padding-top: 14px; font-size: 12px; color: var(--muted); }
+    .source a { text-underline-offset: 3px; }
+    .source a:hover { color: var(--accent); }
+    .hidden { display: none !important; }
+    .pattern-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .p-card { border-top: 4px solid var(--teal); background: var(--paper); padding: 20px; min-height: 230px; }
+    .p-card h3 { margin: 0 0 12px; font-size: 19px; }
+    .p-card .trigger { font-weight: 700; color: var(--ink); margin: 0 0 10px; }
+    .p-card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .p-card code { display: block; margin-top: 14px; color: var(--teal); font: 700 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .playbook { display: grid; grid-template-columns: 1.05fr .95fr; gap: 22px; }
+    .loop { counter-reset: step; background: var(--paper); border: 1px solid var(--line); }
+    .loop li { list-style: none; counter-increment: step; display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 17px 20px; border-bottom: 1px solid var(--line); }
+    .loop li:last-child { border-bottom: 0; }
+    .loop li::before { content: counter(step, decimal-leading-zero); color: var(--accent); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; padding-top: 4px; }
+    .loop b { display: block; margin-bottom: 3px; }
+    .loop span { color: var(--muted); font-size: 14px; }
+    .intel { background: var(--teal-soft); padding: 26px; border-radius: 4px 28px 4px 4px; }
+    .intel h3 { margin: 0 0 18px; font-size: 22px; }
+    .intel ul { margin: 0; padding-left: 20px; }
+    .intel li { margin: 0 0 13px; }
+    .intel li:last-child { margin-bottom: 0; }
+    .caveat { padding: 34px 0 54px; }
+    .caveat-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
+    .caveat h2 { font-size: 26px; }
+    .caveat p, .caveat li { color: var(--muted); font-size: 14px; }
+    .caveat ul { margin: 0; padding-left: 18px; }
+    .caveat a { text-underline-offset: 3px; }
+    .count-note { margin: 16px 0 0; color: var(--muted); font-size: 13px; }
+    .lab-shell { border: 1px solid var(--line); background: var(--paper); box-shadow: var(--shadow); }
+    .lab-toolbar {
+      display: flex; align-items: center; gap: 12px; justify-content: space-between;
+      padding: 12px 14px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 90%, var(--bg));
+    }
+    .problem-select-wrap { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .problem-select-wrap label { color: var(--muted); font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .problem-select {
+      width: min(360px, 46vw); min-width: 0; padding: 9px 34px 9px 11px;
+      border: 1px solid var(--line-strong); border-radius: 5px; background: var(--paper); color: var(--ink); font-weight: 750;
+    }
+    .runtime-state { display: flex; align-items: center; gap: 8px; color: var(--muted); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
+    .runtime-state::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+    .runtime-state.ready::before { background: var(--teal); }
+    .runtime-state.loading::before { background: var(--gold); animation: pulse 1s ease-in-out infinite; }
+    .lab-grid { display: grid; grid-template-columns: minmax(280px, .72fr) minmax(460px, 1.28fr); min-height: 640px; }
+    .problem-pane { padding: 26px; border-right: 1px solid var(--line); }
+    .problem-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+    .problem-number { color: var(--accent); font: 800 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .problem-pane h3 { margin: 0 0 13px; font-size: clamp(26px, 3vw, 36px); line-height: 1.06; }
+    .problem-description { margin: 0 0 20px; color: var(--muted); }
+    .signature { margin: 0 0 22px; padding: 12px 14px; background: var(--code); color: var(--code-ink); border-radius: 4px; overflow-wrap: anywhere; font: 700 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .examples-title { margin: 0 0 9px; font-size: 14px; }
+    .examples { display: grid; gap: 8px; margin-bottom: 20px; }
+    .example { padding: 11px 13px; border-left: 3px solid var(--gold); background: var(--bg); color: var(--muted); font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .constraint-note { margin: 0; padding-top: 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .editor-pane { min-width: 0; background: var(--code); color: var(--code-ink); display: grid; grid-template-rows: auto minmax(300px, 1fr) auto minmax(150px, .52fr); }
+    .editor-bar, .console-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 13px; border-bottom: 1px solid #35424d; }
+    .editor-bar span, .console-bar span { color: #afbec8; font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .editor-actions { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
+    .code-btn { border: 1px solid #52616c; background: transparent; color: #eef4f7; border-radius: 4px; padding: 7px 11px; cursor: pointer; font-size: 13px; font-weight: 800; }
+    .code-btn:hover, .code-btn:focus-visible { border-color: #fff; outline: none; }
+    .code-btn:disabled { cursor: default; opacity: .38; border-color: #52616c; }
+    .code-btn.run { background: var(--gold); border-color: var(--gold); color: #161616; }
+    .code-btn.run:hover { background: #fff; border-color: #fff; }
+    .code-editor-wrap { position: relative; min-width: 0; min-height: 300px; overflow: hidden; background: #0d141a; }
+    .code-highlight, .code-editor {
+      position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; padding: 20px;
+      tab-size: 4; white-space: pre-wrap; overflow-wrap: anywhere; overflow: auto;
+      font: 14px/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .code-highlight { pointer-events: none; color: #d8e2e8; background: #0d141a; scrollbar-width: none; }
+    .code-highlight::-webkit-scrollbar { display: none; }
+    .code-editor {
+      resize: none; outline: none; background: transparent; color: transparent; -webkit-text-fill-color: transparent;
+      caret-color: var(--gold); overflow-wrap: normal;
+    }
+    .code-editor::selection { background: rgba(89, 174, 255, .35); }
+    .code-editor:focus { box-shadow: inset 0 0 0 2px var(--gold); }
+    .tok-comment { color: #8ea0ad; font-style: italic; }
+    .tok-keyword { color: #ff8b81; font-weight: 700; }
+    .tok-builtin { color: #82c7ff; }
+    .tok-string { color: #a8d989; }
+    .tok-number { color: #f6cf65; }
+    .tok-function { color: #d2b3ff; }
+    .tok-operator { color: #ffad66; }
+    .tok-decorator { color: #f0c85b; }
+    .console-bar { border-top: 1px solid #35424d; }
+    .verdict { font-weight: 800 !important; color: #d6e0e6 !important; }
+    .verdict.pass { color: #6ee7d8 !important; }
+    .verdict.fail { color: #ff8d83 !important; }
+    .console { margin: 0; padding: 16px 18px 22px; overflow: auto; white-space: pre-wrap; color: #cbd7de; background: var(--code); font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .lab-foot { display: flex; justify-content: space-between; gap: 18px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+    @keyframes pulse { 50% { opacity: .35; } }
+    .focus-ring:focus-visible, a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    @media (max-width: 900px) {
+      .hero-grid, .section-head, .playbook, .caveat-grid { grid-template-columns: 1fr; }
+      .signal { max-width: 520px; }
+      .tonight-grid { grid-template-columns: repeat(2, 1fr); }
+      .pattern-grid { grid-template-columns: repeat(2, 1fr); }
+      .lab-grid { grid-template-columns: 1fr; }
+      .problem-pane { border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+    @media (max-width: 650px) {
+      .shell { width: min(100% - 22px, 1180px); }
+      .hero { padding-top: 36px; }
+      h1 { font-size: clamp(44px, 16vw, 70px); }
+      .hero-grid { gap: 28px; }
+      .tonight-grid, .question-list, .pattern-grid { grid-template-columns: 1fr; }
+      .block { min-height: 0; }
+      .block h3 { margin-top: 24px; }
+      .mock-card { grid-template-columns: 1fr; border-radius: 6px 22px 6px 6px; }
+      .timer-panel { border-right: 0; border-bottom: 1px solid #35424d; }
+      .timer { font-size: 52px; }
+      section { padding: 40px 0; }
+      .section-head { gap: 14px; }
+      .q-card { min-height: 0; }
+      .lab-toolbar { align-items: flex-start; flex-direction: column; }
+      .problem-select-wrap { width: 100%; align-items: flex-start; flex-direction: column; gap: 5px; }
+      .problem-select { width: 100%; }
+      .editor-bar { align-items: flex-start; flex-direction: column; }
+      .editor-actions { justify-content: flex-start; }
+      .code-editor-wrap { min-height: 360px; }
+      .code-highlight, .code-editor { font-size: 13px; padding: 16px; }
+      .lab-foot { flex-direction: column; gap: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="kicker">Candidate-reported question set</p>
+        <h1>Questions, then patterns.</h1>
+        <p class="lead">Recent Google prompts hide familiar algorithms inside unfamiliar stories. This set pairs each reported question with the pattern it tests, its closest LeetCode analogue, and its source.</p>
+        <div class="action-strip">
+          <a class="btn primary" href="#code-lab">Open code lab</a>
+          <a class="btn" href="#mock">Draw a mock</a>
+          <a class="btn" href="#patterns">Scan the triggers</a>
+        </div>
+      </div>
+      <aside class="signal" aria-label="Interview signal">
+        <span class="signal-label">Strongest signal</span>
+        <strong>Medium core.<br>Adversarial follow-up.</strong>
+        <p>Candidate reports describe two 45-minute intern rounds, usually one problem each. The second round often pushes harder with 2–3 extensions and new test cases.</p>
+      </aside>
+    </div>
+  </header>
+
+  <div class="nav-wrap">
+    <nav class="shell nav" aria-label="Page sections">
+      <a href="#mock">45-minute mock</a>
+      <a href="#code-lab">Code lab</a>
+      <a href="#questions">Question bank</a>
+      <a href="#patterns">Pattern triggers</a>
+    </nav>
+  </div>
+
+  <main>
+    <section id="mock">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Run one round</h2>
+          <p>Draw from ten prompts adapted from the reported question set. The clock and selected prompt stay only for this open session.</p>
+        </div>
+        <div class="mock-card">
+          <div class="timer-panel">
+            <div>
+              <span class="signal-label">45-minute clock</span>
+              <div class="timer" id="timer" aria-live="polite">45:00</div>
+            </div>
+            <div class="timer-actions">
+              <button class="btn" id="toggleTimer" type="button">Start</button>
+              <button class="btn" id="resetTimer" type="button">Reset</button>
+            </div>
+          </div>
+          <div class="prompt-panel">
+            <span class="prompt-tag" id="promptPattern">Monotonic stack</span>
+            <h3 id="promptTitle">Next Greater Number</h3>
+            <p id="promptText">For each element, return the index of the first number to its right that is greater. Example: [1,4,6,7,1] → [1,2,3,-1,-1].</p>
+            <div class="followup"><b>Follow-up:</b> <span id="promptFollowup">Now make the array circular. What changes, and what stays O(n)?</span></div>
+            <button class="btn draw" id="drawPrompt" type="button">Draw another prompt</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="code-lab">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Write it. Run it.</h2>
+          <p>Use real Python in your browser, run the visible examples, then check your solution against the full test set. Syntax errors, wrong answers, exceptions, and runtime are reported below the editor.</p>
+        </div>
+        <div class="lab-shell">
+          <div class="lab-toolbar">
+            <div class="problem-select-wrap">
+              <label for="problemSelect">Problem</label>
+              <select class="problem-select" id="problemSelect" aria-label="Choose a coding problem"></select>
+            </div>
+            <span class="runtime-state" id="runtimeState">Python loads on first run</span>
+          </div>
+          <div class="lab-grid">
+            <article class="problem-pane" aria-live="polite">
+              <div class="problem-meta">
+                <span class="problem-number" id="labProblemNumber">01 / 08</span>
+                <span class="difficulty" id="labDifficulty">MEDIUM</span>
+              </div>
+              <h3 id="labTitle">Next Greater Number</h3>
+              <p class="problem-description" id="labDescription">For every value, return the index of the first strictly greater value to its right. Return -1 when no such value exists.</p>
+              <div class="signature" id="labSignature">next_greater_indices(nums) -&gt; list[int]</div>
+              <h4 class="examples-title">Examples</h4>
+              <div class="examples" id="labExamples"></div>
+              <p class="constraint-note" id="labConstraint">Aim for O(n) time. Equal values do not count as greater.</p>
+            </article>
+            <div class="editor-pane">
+              <div class="editor-bar">
+                <span>solution.py · Python 3.11</span>
+                <div class="editor-actions">
+                  <button class="code-btn" id="undoCode" type="button" aria-label="Undo code edit" title="Undo (⌘/Ctrl Z)">Undo</button>
+                  <button class="code-btn" id="redoCode" type="button" aria-label="Redo code edit" title="Redo (⇧⌘Z / Ctrl Y)">Redo</button>
+                  <button class="code-btn" id="resetCode" type="button">Reset</button>
+                  <button class="code-btn" id="runSample" type="button">Run sample</button>
+                  <button class="code-btn run" id="testAll" type="button">Test all</button>
+                </div>
+              </div>
+              <div class="code-editor-wrap">
+                <pre class="code-highlight" id="codeHighlight" aria-hidden="true"></pre>
+                <textarea class="code-editor" id="codeEditor" aria-label="Python solution editor" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+              </div>
+              <div class="console-bar">
+                <span>Test output</span>
+                <span class="verdict" id="verdict">Not run</span>
+              </div>
+              <pre class="console" id="consoleOutput" aria-live="polite">Choose a problem and start coding. “Run sample” checks the visible cases; “Test all” includes hidden edge cases.</pre>
+            </div>
+          </div>
+        </div>
+        <div class="lab-foot">
+          <span>Execution happens in this page with Pyodide. Nothing is submitted.</span>
+          <span>Code stays only in this open session.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="questions">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Candidate-reported bank</h2>
+          <p>These are paraphrased from 2025–2026 intern, STEP, new-grad, and recent Google question reports. “Closest LC” is a practice analogue, not a claim that Google used the exact problem.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter question bank">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All 25</button>
+          <button class="filter" type="button" data-filter="priority" aria-pressed="false">Core set</button>
+          <button class="filter" type="button" data-filter="graph" aria-pressed="false">Graphs & trees</button>
+          <button class="filter" type="button" data-filter="string" aria-pressed="false">Strings</button>
+          <button class="filter" type="button" data-filter="heap" aria-pressed="false">Heap & intervals</button>
+          <button class="filter" type="button" data-filter="range" aria-pressed="false">Range & counting</button>
+        </div>
+        <div class="question-list" id="questionList">
+          <article class="q-card" data-tags="priority range"><div class="q-top"><span class="q-index">Q01</span><span class="difficulty">MEDIUM</span></div><h3>Next Greater Number</h3><p>Return the index of the first greater value to the right for every element. Follow-up: make the array circular.</p><div class="pattern">Monotonic stack · LC 496 / 503</div><div class="source"><a href="https://medium.com/@neat_lava_bear_388/google-2026-swe-intern-vo-2-round-interview-experience-46917df93eea" target="_blank" rel="noopener">2026 intern VO report</a></div></article>
+          <article class="q-card" data-tags="priority string range"><div class="q-top"><span class="q-index">Q02</span><span class="difficulty">MEDIUM</span></div><h3>Restore IP Addresses</h3><p>Generate every valid IP from a digit string. Follow-up: count valid addresses without listing them.</p><div class="pattern">Backtracking → DP counting · LC 93</div><div class="source"><a href="https://medium.com/@neat_lava_bear_388/google-2026-swe-intern-vo-2-round-interview-experience-46917df93eea" target="_blank" rel="noopener">2026 intern VO report</a></div></article>
+          <article class="q-card" data-tags="priority heap"><div class="q-top"><span class="q-index">Q03</span><span class="difficulty">MEDIUM</span></div><h3>Minimum Meeting Rooms</h3><p>Given meeting intervals, return the minimum rooms required. Clarify whether boundaries overlap before coding.</p><div class="pattern">Sort + min-heap · LC 253</div><div class="source"><a href="https://dev.to/net_programhelp_e160eef28/google-swe-intern-interview-experience-the-key-to-nailing-both-rounds-5465" target="_blank" rel="noopener">Intern experience report</a></div></article>
+          <article class="q-card" data-tags="priority range"><div class="q-top"><span class="q-index">Q04</span><span class="difficulty">MEDIUM</span></div><h3>Range Sum with Updates</h3><p>Design update(index, value) and sumRange(left, right). Discuss prefix sums, Fenwick, segment tree, 4N space, sparsity, and lazy propagation.</p><div class="pattern">Segment tree / Fenwick · LC 307</div><div class="source"><a href="https://dev.to/net_programhelp_e160eef28/google-swe-intern-interview-experience-the-key-to-nailing-both-rounds-5465" target="_blank" rel="noopener">Intern experience report</a></div></article>
+          <article class="q-card" data-tags="string"><div class="q-top"><span class="q-index">Q05</span><span class="difficulty">UNSPECIFIED</span></div><h3>Strings + Hashing</h3><p>A string-processing problem began at O(n²), improved to O(n log n), then was extended. Exact wording was not reported.</p><div class="pattern">Hashing · practice LC 3 / 49 / 438 family</div><div class="source"><a href="https://leetcode.com/discuss/post/6034578/Google-SWE-Intern-2025-Interview-Experience/" target="_blank" rel="noopener">2025 intern report</a></div></article>
+          <article class="q-card" data-tags="priority range string"><div class="q-top"><span class="q-index">Q06</span><span class="difficulty">CUSTOM</span></div><h3>Nth License Plate</h3><p>Find the nth five-character plate across blocks: 00000…99999, then 0000A…9999Z, continuing toward all letters.</p><div class="pattern">Mixed-radix counting · no direct LC</div><div class="source"><a href="https://leetcode.com/discuss/post/6034578/Google-SWE-Intern-2025-Interview-Experience/" target="_blank" rel="noopener">2025 intern report</a></div></article>
+          <article class="q-card" data-tags="priority string"><div class="q-top"><span class="q-index">Q07</span><span class="difficulty">MEDIUM</span></div><h3>Sliding Window, Then Hashing</h3><p>A STEP round used a sliding-window problem with follow-ups, followed by discussion of a hash-based approach.</p><div class="pattern">Sliding window · LC 76 family</div><div class="source"><a href="https://www.glassdoor.co.uk/Interview/Google-STEP-Intern-Interview-Questions-EI_IE9079.0,6_KO7,31.htm" target="_blank" rel="noopener">STEP candidate reports</a></div></article>
+          <article class="q-card" data-tags="graph priority"><div class="q-top"><span class="q-index">Q08</span><span class="difficulty">MODIFIED</span></div><h3>Lowest Common Ancestor</h3><p>A tree question was described as a slightly modified LCA problem, with follow-ups.</p><div class="pattern">Tree recursion · LC 236</div><div class="source"><a href="https://www.glassdoor.co.uk/Interview/Google-STEP-Intern-Interview-Questions-EI_IE9079.0,6_KO7,31.htm" target="_blank" rel="noopener">STEP candidate reports</a></div></article>
+          <article class="q-card" data-tags="string"><div class="q-top"><span class="q-index">Q09</span><span class="difficulty">UNSPECIFIED</span></div><h3>String Manipulation → Stack</h3><p>A string task gained a follow-up solved with a stack; exact prompt wording was not reported.</p><div class="pattern">String parsing + stack · LC 394 / 224 family</div><div class="source"><a href="https://www.glassdoor.co.in/Interview/Google-STEP-Intern-Interview-Questions-EI_IE9079.0,6_KO7,18.htm" target="_blank" rel="noopener">STEP candidate reports</a></div></article>
+          <article class="q-card" data-tags="string"><div class="q-top"><span class="q-index">Q10</span><span class="difficulty">EASY–MEDIUM</span></div><h3>Map Iteration / Simple Database</h3><p>Iterate over maps and model a simple database. The report did not preserve the full specification.</p><div class="pattern">Hash maps + basic data modeling</div><div class="source"><a href="https://www.glassdoor.co.in/Interview/Google-STEP-Intern-Interview-Questions-EI_IE9079.0,6_KO7,18.htm" target="_blank" rel="noopener">STEP candidate reports</a></div></article>
+          <article class="q-card" data-tags="priority heap"><div class="q-top"><span class="q-index">Q11</span><span class="difficulty">MEDIUM→HARD</span></div><h3>Top K Rated Movies, Streaming</h3><p>Maintain the top K most-rated movies from a running stream; candidate reported 2–3 follow-ups.</p><div class="pattern">Heap / top-K stream · LC 347 / 215 family</div><div class="source"><a href="https://www.glassdoor.co.in/Interview/Google-Software-Engineering-Intern-Interview-Questions-EI_IE9079.0,6_KO7,34.htm" target="_blank" rel="noopener">2025 Bengaluru intern report</a></div></article>
+          <article class="q-card" data-tags="graph string"><div class="q-top"><span class="q-index">Q12</span><span class="difficulty">MEDIUM</span></div><h3>Trie, Then Graph BFS</h3><p>One accepted intern candidate reported two medium questions: a trie, then a graph/BFS problem.</p><div class="pattern">Trie + BFS · LC 208 / 200 family</div><div class="source"><a href="https://www.glassdoor.co.in/Interview/Google-Software-Engineering-Intern-Interview-Questions-EI_IE9079.0,6_KO7,34.htm" target="_blank" rel="noopener">Intern candidate reports</a></div></article>
+          <article class="q-card" data-tags="heap"><div class="q-top"><span class="q-index">Q13</span><span class="difficulty">EASY–MEDIUM</span></div><h3>Calendar / Streaming Service</h3><p>A STEP prompt was described as a calendar or YouTube-like streaming-service problem; the exact wording is unavailable.</p><div class="pattern">Intervals · LC 252 / 253 family</div><div class="source"><a href="https://www.glassdoor.co.uk/Interview/Google-STEP-Intern-Interview-Questions-EI_IE9079.0,6_KO7,31.htm" target="_blank" rel="noopener">2025 Sydney STEP report</a></div></article>
+          <article class="q-card" data-tags="range"><div class="q-top"><span class="q-index">Q14</span><span class="difficulty">MEDIUM</span></div><h3>Prime Variations by Levels</h3><p>Start with a prime-number problem, then evolve it through multiple levels. Exact variants were not reported.</p><div class="pattern">Math / sieve + incremental follow-ups</div><div class="source"><a href="https://www.glassdoor.co.in/Interview/Google-STEP-Intern-Interview-Questions-EI_IE9079.0,6_KO7,18.htm" target="_blank" rel="noopener">Warsaw STEP report</a></div></article>
+          <article class="q-card" data-tags="priority string"><div class="q-top"><span class="q-index">Q15</span><span class="difficulty">HARD</span></div><h3>Trie Autocomplete</h3><p>Build prefix suggestions, return the earliest matching word, or count entries matching a prefix.</p><div class="pattern">Trie + traversal · LC 208 / 211 / 677</div><div class="source"><a href="https://trueinterview.io/questions/trie-autocomplete-prefix-search" target="_blank" rel="noopener">Reported Mar 2026</a></div></article>
+          <article class="q-card" data-tags="priority range"><div class="q-top"><span class="q-index">Q16</span><span class="difficulty">MEDIUM</span></div><h3>Cutting Ribbons</h3><p>Cut ribbons into k equal pieces and maximize the piece length.</p><div class="pattern">Binary search on answer · LC 1891</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Aug 2026</a></div></article>
+          <article class="q-card" data-tags="graph"><div class="q-top"><span class="q-index">Q17</span><span class="difficulty">MEDIUM</span></div><h3>Nested List Weight Sum</h3><p>Compute the depth-weighted sum of nested values. Natural follow-ups: inverse weighting or iterative traversal.</p><div class="pattern">DFS on nested structures · LC 339 / 364</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Aug 2026</a></div></article>
+          <article class="q-card" data-tags="priority graph"><div class="q-top"><span class="q-index">Q18</span><span class="difficulty">HARD</span></div><h3>Number of Islands II</h3><p>Add land one cell at a time and report the island count after each update.</p><div class="pattern">Union-find · LC 305</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Jun 2026</a></div></article>
+          <article class="q-card" data-tags="priority graph"><div class="q-top"><span class="q-index">Q19</span><span class="difficulty">MEDIUM</span></div><h3>Course Schedule</h3><p>Given prerequisites, decide whether every course can be completed.</p><div class="pattern">Topological sort · LC 207</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Mar 2026</a></div></article>
+          <article class="q-card" data-tags="string priority"><div class="q-top"><span class="q-index">Q20</span><span class="difficulty">MEDIUM</span></div><h3>Decode String</h3><p>Decode nested repetition expressions such as k[encoded_string].</p><div class="pattern">Stack / recursion · LC 394</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Feb 2026</a></div></article>
+          <article class="q-card" data-tags="heap"><div class="q-top"><span class="q-index">Q21</span><span class="difficulty">MEDIUM</span></div><h3>Merge Intervals</h3><p>Merge every overlapping interval after sorting by start.</p><div class="pattern">Sort + merge sweep · LC 56</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Feb 2026</a></div></article>
+          <article class="q-card" data-tags="heap"><div class="q-top"><span class="q-index">Q22</span><span class="difficulty">MEDIUM</span></div><h3>K Pairs with Smallest Sums</h3><p>Return the k pairs, one value from each sorted array, with the smallest sums.</p><div class="pattern">Heap / k-way merge · LC 373</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Jan 2026</a></div></article>
+          <article class="q-card" data-tags="heap"><div class="q-top"><span class="q-index">Q23</span><span class="difficulty">HARD</span></div><h3>Median from Data Stream</h3><p>Support streaming insertions and return the median at any time.</p><div class="pattern">Two heaps · LC 295</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Reported Jan 2026</a></div></article>
+          <article class="q-card" data-tags="graph"><div class="q-top"><span class="q-index">Q24</span><span class="difficulty">HARD</span></div><h3>Minimum-Cost Tree Disconnection</h3><p>Optimize which edges to cut along root-to-leaf paths. The report did not include a direct LeetCode analogue.</p><div class="pattern">Dynamic programming on trees</div><div class="source"><a href="https://github.com/kevin-2023-code/tech-interview-questions/blob/HEAD/companies/google.md" target="_blank" rel="noopener">Phone screen, Sep 2026</a></div></article>
+          <article class="q-card" data-tags="priority string"><div class="q-top"><span class="q-index">Q25</span><span class="difficulty">VAGUE BY DESIGN</span></div><h3>How Many Lines?</h3><p>Given a string and an integer width, return how many lines it occupies. The missing wrapping rules are the test: clarify first.</p><div class="pattern">Requirements + simulation · LC 806</div><div class="source"><a href="https://www.tryexponent.com/blog/google-ai-coding-interview" target="_blank" rel="noopener">2026 L3 onsite report</a></div></article>
+        </div>
+        <p class="count-note" id="countNote">Showing 25 questions.</p>
+      </div>
+    </section>
+
+    <section id="patterns">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Hear the trigger</h2>
+          <p>Translate story language into an invariant. The point is not to memorize a solution; it is to recognize the smallest data structure that keeps the needed fact current.</p>
+        </div>
+        <div class="pattern-grid">
+          <article class="p-card"><h3>Monotonic stack</h3><p class="trigger">“For each item, find the nearest greater/smaller to its left/right.”</p><p>Store indices. Pop while the current value resolves the stack top. For circular input, scan 2n positions with modulo.</p><code>while stack and a[i] &gt; a[stack[-1]]</code></article>
+          <article class="p-card"><h3>Sliding window</h3><p class="trigger">“Longest/shortest substring or subarray satisfying…”</p><p>Expand right; shrink left while invalid. Track frequencies. Exactly K often equals atMost(K) − atMost(K−1).</p><code>expand → repair invariant → score</code></article>
+          <article class="p-card"><h3>Binary search on answer</h3><p class="trigger">“Maximize the minimum,” “k pieces,” or a yes/no feasibility boundary.</p><p>Search the answer range, not the input. Write a monotone works(x) predicate and choose bounds carefully.</p><code>if works(mid): move toward better</code></article>
+          <article class="p-card"><h3>Topological sort</h3><p class="trigger">Prerequisites, dependencies, valid ordering, “can all finish?”</p><p>Build adjacency and indegree; process zero-indegree nodes. Fewer than n processed means a cycle.</p><code>Kahn BFS or DFS 3-color</code></article>
+          <article class="p-card"><h3>Union-find</h3><p class="trigger">Connectivity changes one update at a time; count components after each add.</p><p>Path compression + union by rank/size. Flatten a grid with r·C+c and adjust the component count incrementally.</p><code>new node: count++ · merged roots: count--</code></article>
+          <article class="p-card"><h3>Intervals + heap</h3><p class="trigger">Minimum rooms/resources or maximum overlap over start/end times.</p><p>Clarify boundary semantics. Sort by start, release finished resources from a min-heap, then add the new end.</p><code>if minEnd &lt;= start: reuse</code></article>
+          <article class="p-card"><h3>Trie</h3><p class="trigger">Prefixes, autocomplete, dictionary traversal, prefix counts.</p><p>Each node has children and terminal state. On a board, backtrack while pruning paths that are not prefixes.</p><code>walk(prefix) then DFS descendants</code></article>
+          <article class="p-card"><h3>Range structure</h3><p class="trigger">Both update(i, value) and query(l, r) must be fast.</p><p>Prefix sums make updates O(n). Fenwick is compact for sums; segment trees are more general and use roughly 4N space.</p><code>Fenwick: i += i &amp; -i</code></article>
+          <article class="p-card"><h3>Heap / top-K</h3><p class="trigger">Top K, kth largest, live stream, or merge sorted candidate lists.</p><p>Use a size-K min-heap for top-K largest; two balanced heaps for a running median; a frontier heap for k-way merge.</p><code>keep only what can still enter the answer</code></article>
+          <article class="p-card"><h3>Backtracking → DP</h3><p class="trigger">Generate all valid partitions under local rules; then “count only.”</p><p>DFS over position and choices; prune immediately. Counting replaces returned lists with memoized state totals.</p><code>state = (position, piecesUsed)</code></article>
+          <article class="p-card"><h3>Grid BFS / DFS</h3><p class="trigger">Connected regions, islands, shortest moves, spreading by minutes.</p><p>DFS counts components; BFS gives shortest unweighted distance. Start from all sources at once for spreading-time problems.</p><code>BFS state may include keys / masks</code></article>
+          <article class="p-card"><h3>Stack parsing</h3><p class="trigger">Nested brackets, repetition syntax, expression evaluation.</p><p>Push context on an opener and combine on a closer. Be able to explain the equivalent recursive parser.</p><code>number + previousString on the stack</code></article>
+          <article class="p-card"><h3>Mixed-radix counting</h3><p class="trigger">Find the nth item in a custom enumeration mixing alphabets.</p><p>Compute the size of each block, subtract whole blocks, then decode the remainder digit by digit.</p><code>block = 10^digits × 26^letters</code></article>
+          <article class="p-card"><h3>Clarify first</h3><p class="trigger">A one-line prompt with missing rules or a real-world wrapper.</p><p>Ask about ranges, boundaries, sortedness, duplicates, invalid input, and output semantics before choosing a structure.</p><code>ambiguity is part of the interview</code></article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="caveat">
+    <div class="shell caveat-grid">
+      <h2>Read the evidence correctly</h2>
+      <div>
+        <ul>
+          <li>These are candidate reports and question-bank entries, not an official Google syllabus or a prediction of your exact prompt.</li>
+          <li>Several Glassdoor and LeetCode reports omit exact wording; those cards are marked “unspecified” rather than filled in.</li>
+          <li>The Medium/DEV “ProgramHelp” posts promote paid services, so use their concrete questions as signals, not proof of frequency.</li>
+          <li>Some trueinterview pages were access-gated; LeetCode labels came from the source bank’s own index.</li>
+          <li>Recent 2026 intern-specific Reddit coverage could not be verified; this set relies on Medium, DEV, LeetCode Discuss, Glassdoor, and tracked question banks.</li>
+          <li>An AI-assisted code-comprehension format is reportedly being piloted for some junior roles; the cited intern reports remain classic data-structures-and-algorithms rounds. <a href="https://www.tryexponent.com/blog/google-ai-coding-interview" target="_blank" rel="noopener">Source</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var prompts = [
+        { pattern: "Monotonic stack", title: "Next Greater Number", text: "For each element, return the index of the first number to its right that is greater. Example: [1,4,6,7,1] → [1,2,3,-1,-1].", followup: "Now make the array circular. What changes, and what stays O(n)?" },
+        { pattern: "Backtracking → DP", title: "Restore IP Addresses", text: "Given a string containing only digits, return every valid IP address that can be formed by inserting three dots.", followup: "Return only the count. Can you avoid constructing every address?" },
+        { pattern: "Intervals + heap", title: "Meeting Rooms", text: "Given meeting intervals, return the minimum number of rooms required.", followup: "What boundary semantics are you assuming? Now process meetings as they arrive." },
+        { pattern: "Range structure", title: "Mutable Range Sum", text: "Design a structure with update(index, value) and sumRange(left, right).", followup: "Compare prefix sums, Fenwick trees, and segment trees. What changes for sparse indices?" },
+        { pattern: "Binary search on answer", title: "Cutting Ribbons", text: "Given ribbon lengths and k, cut at least k equal pieces and maximize the piece length.", followup: "Write the feasibility predicate and prove why it is monotone." },
+        { pattern: "Union-find", title: "Number of Islands II", text: "A water grid receives one land coordinate at a time. Return the island count after every addition.", followup: "What happens when the same coordinate is added twice?" },
+        { pattern: "Topological sort", title: "Course Schedule", text: "Given n courses and prerequisite pairs, determine whether all courses can be completed.", followup: "Return one valid order. Then explain how you detect a cycle with DFS instead." },
+        { pattern: "Heap / stream", title: "Top K Rated Movies", text: "Maintain the top K most-rated movies from a running stream of rating updates.", followup: "Ratings can change after insertion. Which heap entries become stale, and how will you handle them?" },
+        { pattern: "Trie", title: "Autocomplete", text: "Build a dictionary structure with suggest(prefix), returning entries that begin with the prefix.", followup: "Return only countWithPrefix(prefix). What state can each node cache?" },
+        { pattern: "Clarify first", title: "How Many Lines?", text: "Given a string and an integer width, return how many lines are needed to write the string.", followup: "Do not code yet. Identify every wrapping rule the prompt leaves undefined." }
+      ];
+
+      var current = 0;
+      var draw = document.getElementById("drawPrompt");
+      draw.addEventListener("click", function () {
+        var next = current;
+        while (next === current && prompts.length > 1) next = Math.floor(Math.random() * prompts.length);
+        current = next;
+        var p = prompts[current];
+        document.getElementById("promptPattern").textContent = p.pattern;
+        document.getElementById("promptTitle").textContent = p.title;
+        document.getElementById("promptText").textContent = p.text;
+        document.getElementById("promptFollowup").textContent = p.followup;
+      });
+
+      var remaining = 45 * 60;
+      var interval = null;
+      var timer = document.getElementById("timer");
+      var toggle = document.getElementById("toggleTimer");
+      function renderTime() {
+        var min = Math.floor(remaining / 60);
+        var sec = remaining % 60;
+        timer.textContent = String(min).padStart(2, "0") + ":" + String(sec).padStart(2, "0");
+      }
+      function stopTimer() {
+        if (interval) clearInterval(interval);
+        interval = null;
+        toggle.textContent = remaining === 0 ? "Finished" : "Start";
+      }
+      toggle.addEventListener("click", function () {
+        if (remaining === 0) return;
+        if (interval) { stopTimer(); return; }
+        toggle.textContent = "Pause";
+        interval = setInterval(function () {
+          remaining -= 1;
+          renderTime();
+          if (remaining <= 0) stopTimer();
+        }, 1000);
+      });
+      document.getElementById("resetTimer").addEventListener("click", function () {
+        stopTimer(); remaining = 45 * 60; renderTime(); toggle.textContent = "Start";
+      });
+
+      var filters = Array.prototype.slice.call(document.querySelectorAll(".filter"));
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".q-card"));
+      filters.forEach(function (button) {
+        button.addEventListener("click", function () {
+          filters.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+          button.setAttribute("aria-pressed", "true");
+          var filter = button.getAttribute("data-filter");
+          var shown = 0;
+          cards.forEach(function (card) {
+            var matches = filter === "all" || card.getAttribute("data-tags").split(" ").indexOf(filter) !== -1;
+            card.classList.toggle("hidden", !matches);
+            if (matches) shown += 1;
+          });
+          document.getElementById("countNote").textContent = "Showing " + shown + (shown === 1 ? " question." : " questions.");
+        });
+      });
+
+      var labProblems = [
+        {
+          title: "Next Greater Number", difficulty: "MEDIUM", functionName: "next_greater_indices",
+          signature: "next_greater_indices(nums) -> list[int]",
+          description: "For every value, return the index of the first strictly greater value to its right. Return -1 when no such value exists.",
+          constraint: "Aim for O(n) time. Equal values do not count as greater.",
+          examples: ["Input: [1, 4, 6, 7, 1]\nOutput: [1, 2, 3, -1, -1]", "Input: [3, 2, 1]\nOutput: [-1, -1, -1]"],
+          starter: "def next_greater_indices(nums):\n    # Return one index for every input value.\n    pass\n",
+          tests: [
+            { args: [[1, 4, 6, 7, 1]], expected: [1, 2, 3, -1, -1] },
+            { args: [[3, 2, 1]], expected: [-1, -1, -1] },
+            { args: [[2, 2, 3]], expected: [2, 2, -1], hidden: true },
+            { args: [[]], expected: [], hidden: true },
+            { args: [[-2, -1, -3, 0]], expected: [1, 3, 3, -1], hidden: true }
+          ]
+        },
+        {
+          title: "Restore IP Addresses", difficulty: "MEDIUM", functionName: "restore_ip_addresses",
+          signature: "restore_ip_addresses(s) -> list[str]",
+          description: "Insert exactly three dots into a digit string and return every valid IPv4 address. Each part is 0–255, and leading zeroes are invalid except for the part ‘0’.",
+          constraint: "Input length is 1–20. Return addresses in any order.",
+          examples: ["Input: \"25525511135\"\nOutput: [\"255.255.11.135\", \"255.255.111.35\"]", "Input: \"0000\"\nOutput: [\"0.0.0.0\"]"],
+          starter: "def restore_ip_addresses(s):\n    # Return every valid address; order does not matter.\n    pass\n",
+          tests: [
+            { args: ["25525511135"], expected: ["255.255.11.135", "255.255.111.35"], unordered: true },
+            { args: ["0000"], expected: ["0.0.0.0"], unordered: true },
+            { args: ["101023"], expected: ["1.0.10.23", "1.0.102.3", "10.1.0.23", "10.10.2.3", "101.0.2.3"], unordered: true, hidden: true },
+            { args: ["111"], expected: [], unordered: true, hidden: true },
+            { args: ["256256256256"], expected: [], unordered: true, hidden: true }
+          ]
+        },
+        {
+          title: "Minimum Meeting Rooms", difficulty: "MEDIUM", functionName: "min_meeting_rooms",
+          signature: "min_meeting_rooms(intervals) -> int",
+          description: "Given half-open meeting intervals [start, end), return the minimum rooms required so every meeting can take place.",
+          constraint: "A meeting ending at time t does not overlap one starting at t. Intervals may be unsorted.",
+          examples: ["Input: [[0, 30], [5, 10], [15, 20]]\nOutput: 2", "Input: [[7, 10], [10, 12]]\nOutput: 1"],
+          starter: "def min_meeting_rooms(intervals):\n    # Intervals use [start, end) semantics.\n    pass\n",
+          tests: [
+            { args: [[[0, 30], [5, 10], [15, 20]]], expected: 2 },
+            { args: [[[7, 10], [10, 12]]], expected: 1 },
+            { args: [[]], expected: 0, hidden: true },
+            { args: [[[5, 8]]], expected: 1, hidden: true },
+            { args: [[[4, 9], [1, 4], [2, 7], [9, 10]]], expected: 2, hidden: true }
+          ]
+        },
+        {
+          title: "Cutting Ribbons", difficulty: "MEDIUM", functionName: "max_ribbon_length",
+          signature: "max_ribbon_length(ribbons, k) -> int",
+          description: "Cut the given ribbons into at least k equal-length pieces. Return the greatest possible integer piece length, or 0 if k pieces are impossible.",
+          constraint: "Ribbon lengths and k are positive integers. You may discard leftovers.",
+          examples: ["Input: ribbons=[9, 7, 5], k=3\nOutput: 5", "Input: ribbons=[5, 7, 9], k=22\nOutput: 0"],
+          starter: "def max_ribbon_length(ribbons, k):\n    # Search for the largest feasible integer length.\n    pass\n",
+          tests: [
+            { args: [[9, 7, 5], 3], expected: 5 },
+            { args: [[5, 7, 9], 22], expected: 0 },
+            { args: [[7, 5, 9], 4], expected: 4, hidden: true },
+            { args: [[100], 10], expected: 10, hidden: true },
+            { args: [[1, 1, 1], 3], expected: 1, hidden: true }
+          ]
+        },
+        {
+          title: "Number of Islands II", difficulty: "HARD", functionName: "island_counts",
+          signature: "island_counts(rows, cols, positions) -> list[int]",
+          description: "Begin with a water grid. Add land at each [row, col] position and return the number of four-directionally connected islands after every addition.",
+          constraint: "A duplicate land addition leaves the count unchanged.",
+          examples: ["Input: rows=3, cols=3, positions=[[0,0],[0,1],[1,2],[2,1]]\nOutput: [1, 1, 2, 3]", "Input: rows=1, cols=2, positions=[[0,0],[0,0],[0,1]]\nOutput: [1, 1, 1]"],
+          starter: "def island_counts(rows, cols, positions):\n    # Return the island count after each addition.\n    pass\n",
+          tests: [
+            { args: [3, 3, [[0, 0], [0, 1], [1, 2], [2, 1]]], expected: [1, 1, 2, 3] },
+            { args: [1, 2, [[0, 0], [0, 0], [0, 1]]], expected: [1, 1, 1] },
+            { args: [2, 2, [[0, 0], [1, 1], [0, 1]]], expected: [1, 2, 1], hidden: true },
+            { args: [1, 1, []], expected: [], hidden: true },
+            { args: [3, 1, [[0, 0], [2, 0], [1, 0]]], expected: [1, 2, 1], hidden: true }
+          ]
+        },
+        {
+          title: "Course Schedule", difficulty: "MEDIUM", functionName: "can_finish",
+          signature: "can_finish(num_courses, prerequisites) -> bool",
+          description: "Each pair [course, prerequisite] means the prerequisite must be completed first. Return whether all courses can be completed.",
+          constraint: "Courses are numbered 0 through num_courses - 1. Duplicate prerequisite pairs may appear.",
+          examples: ["Input: num_courses=2, prerequisites=[[1,0]]\nOutput: True", "Input: num_courses=2, prerequisites=[[1,0],[0,1]]\nOutput: False"],
+          starter: "def can_finish(num_courses, prerequisites):\n    # Return False exactly when the dependency graph cycles.\n    pass\n",
+          tests: [
+            { args: [2, [[1, 0]]], expected: true },
+            { args: [2, [[1, 0], [0, 1]]], expected: false },
+            { args: [1, []], expected: true, hidden: true },
+            { args: [4, [[1, 0], [2, 1], [3, 2]]], expected: true, hidden: true },
+            { args: [3, [[1, 0], [1, 0], [2, 1]]], expected: true, hidden: true }
+          ]
+        },
+        {
+          title: "Decode String", difficulty: "MEDIUM", functionName: "decode_string",
+          signature: "decode_string(s) -> str",
+          description: "Decode expressions of the form k[encoded], where k is a positive repeat count and encoded sections may be nested.",
+          constraint: "The input is valid and contains letters, digits, and brackets. Repeat counts may have multiple digits.",
+          examples: ["Input: \"3[a]2[bc]\"\nOutput: \"aaabcbc\"", "Input: \"3[a2[c]]\"\nOutput: \"accaccacc\""],
+          starter: "def decode_string(s):\n    # Decode nested repetition groups.\n    pass\n",
+          tests: [
+            { args: ["3[a]2[bc]"], expected: "aaabcbc" },
+            { args: ["3[a2[c]]"], expected: "accaccacc" },
+            { args: ["2[abc]3[cd]ef"], expected: "abcabccdcdcdef", hidden: true },
+            { args: ["10[z]"], expected: "zzzzzzzzzz", hidden: true },
+            { args: ["plain"], expected: "plain", hidden: true }
+          ]
+        },
+        {
+          title: "Merge Intervals", difficulty: "MEDIUM", functionName: "merge_intervals",
+          signature: "merge_intervals(intervals) -> list[list[int]]",
+          description: "Merge every pair of closed intervals that overlaps and return the merged intervals sorted by start.",
+          constraint: "Touching closed intervals overlap: [1, 4] and [4, 5] become [1, 5].",
+          examples: ["Input: [[1,3],[2,6],[8,10],[15,18]]\nOutput: [[1,6],[8,10],[15,18]]", "Input: [[1,4],[4,5]]\nOutput: [[1,5]]"],
+          starter: "def merge_intervals(intervals):\n    # Return merged intervals ordered by start.\n    pass\n",
+          tests: [
+            { args: [[[1, 3], [2, 6], [8, 10], [15, 18]]], expected: [[1, 6], [8, 10], [15, 18]] },
+            { args: [[[1, 4], [4, 5]]], expected: [[1, 5]] },
+            { args: [[]], expected: [], hidden: true },
+            { args: [[[5, 7], [1, 2], [3, 4]]], expected: [[1, 2], [3, 4], [5, 7]], hidden: true },
+            { args: [[[1, 10], [2, 3], [4, 8]]], expected: [[1, 10]], hidden: true }
+          ]
+        }
+      ];
+
+      var problemSelect = document.getElementById("problemSelect");
+      var codeEditor = document.getElementById("codeEditor");
+      var codeHighlight = document.getElementById("codeHighlight");
+      var consoleOutput = document.getElementById("consoleOutput");
+      var verdict = document.getElementById("verdict");
+      var runtimeState = document.getElementById("runtimeState");
+      var runSample = document.getElementById("runSample");
+      var testAll = document.getElementById("testAll");
+      var undoCode = document.getElementById("undoCode");
+      var redoCode = document.getElementById("redoCode");
+      var resetCode = document.getElementById("resetCode");
+      var activeProblem = 0;
+      var labWorker = null;
+      var workerReady = false;
+      var queuedRun = null;
+      var activeRunId = 0;
+      var timeoutHandle = null;
+      var labBusy = false;
+      var suppressEditorInput = false;
+      var histories = labProblems.map(function (problem) {
+        return {
+          undo: [{ value: problem.starter, start: problem.starter.length, end: problem.starter.length }],
+          redo: [],
+          lastType: "",
+          lastTime: 0
+        };
+      });
+
+      var pythonKeywords = Object.create(null);
+      "and as assert async await break class continue def del elif else except False finally for from global if import in is lambda None nonlocal not or pass raise return True try while with yield match case".split(" ").forEach(function (word) { pythonKeywords[word] = true; });
+      var pythonBuiltins = Object.create(null);
+      "abs all any bin bool bytearray bytes callable chr classmethod compile complex dict dir divmod enumerate eval exec filter float format frozenset getattr globals hasattr hash help hex id input int isinstance issubclass iter len list locals map max memoryview min next object oct open ord pow print property range repr reversed round set setattr slice sorted staticmethod str sum super tuple type vars zip __import__".split(" ").forEach(function (word) { pythonBuiltins[word] = true; });
+
+      function escapeCode(text) {
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+
+      function token(className, text) {
+        return '<span class="' + className + '">' + escapeCode(text) + "</span>";
+      }
+
+      function highlightPython(code) {
+        var html = "";
+        var i = 0;
+        var expectFunction = false;
+        while (i < code.length) {
+          var ch = code.charAt(i);
+          if (ch === "#") {
+            var commentEnd = code.indexOf("\n", i);
+            if (commentEnd === -1) commentEnd = code.length;
+            html += token("tok-comment", code.slice(i, commentEnd));
+            i = commentEnd;
+            continue;
+          }
+          var stringMatch = code.slice(i).match(/^([rRuUbBfF]{0,2})("""|'''|"|')/);
+          if (stringMatch) {
+            var delimiter = stringMatch[2];
+            var stringEnd = i + stringMatch[0].length;
+            while (stringEnd < code.length) {
+              if (code.charAt(stringEnd) === "\\") {
+                stringEnd += 2;
+                continue;
+              }
+              if (code.slice(stringEnd, stringEnd + delimiter.length) === delimiter) {
+                stringEnd += delimiter.length;
+                break;
+              }
+              stringEnd += 1;
+            }
+            html += token("tok-string", code.slice(i, stringEnd));
+            i = stringEnd;
+            continue;
+          }
+          if (/[A-Za-z_]/.test(ch)) {
+            var wordEnd = i + 1;
+            while (wordEnd < code.length && /[A-Za-z0-9_]/.test(code.charAt(wordEnd))) wordEnd += 1;
+            var word = code.slice(i, wordEnd);
+            if (expectFunction) {
+              html += token("tok-function", word);
+              expectFunction = false;
+            } else if (pythonKeywords[word]) {
+              html += token("tok-keyword", word);
+              if (word === "def" || word === "class") expectFunction = true;
+            } else if (pythonBuiltins[word]) {
+              html += token("tok-builtin", word);
+            } else {
+              html += escapeCode(word);
+            }
+            i = wordEnd;
+            continue;
+          }
+          if (/\d/.test(ch)) {
+            var numberMatch = code.slice(i).match(/^(?:0[xX][0-9a-fA-F]+|0[bB][01]+|0[oO][0-7]+|\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/);
+            html += token("tok-number", numberMatch[0]);
+            i += numberMatch[0].length;
+            continue;
+          }
+          if (ch === "@" && /[A-Za-z_]/.test(code.charAt(i + 1))) {
+            var decoratorEnd = i + 2;
+            while (decoratorEnd < code.length && /[A-Za-z0-9_.]/.test(code.charAt(decoratorEnd))) decoratorEnd += 1;
+            html += token("tok-decorator", code.slice(i, decoratorEnd));
+            i = decoratorEnd;
+            continue;
+          }
+          if ("+-*/%=!<>&|^~:@.,;()[]{}".indexOf(ch) !== -1) {
+            html += token("tok-operator", ch);
+          } else {
+            html += escapeCode(ch);
+          }
+          i += 1;
+        }
+        return html + (code.charAt(code.length - 1) === "\n" ? " " : "\n");
+      }
+
+      function syncEditorScroll() {
+        codeHighlight.scrollTop = codeEditor.scrollTop;
+        codeHighlight.scrollLeft = codeEditor.scrollLeft;
+      }
+
+      function syncHighlight() {
+        codeHighlight.innerHTML = highlightPython(codeEditor.value);
+        syncEditorScroll();
+      }
+
+      function currentHistory() {
+        return histories[activeProblem];
+      }
+
+      function rememberSelection() {
+        var history = currentHistory();
+        var latest = history.undo[history.undo.length - 1];
+        if (latest && latest.value === codeEditor.value) {
+          latest.start = codeEditor.selectionStart;
+          latest.end = codeEditor.selectionEnd;
+        }
+      }
+
+      function updateHistoryButtons() {
+        var history = currentHistory();
+        undoCode.disabled = labBusy || history.undo.length <= 1;
+        redoCode.disabled = labBusy || history.redo.length === 0;
+      }
+
+      function recordEditorChange(inputType, forceNew) {
+        if (suppressEditorInput) return;
+        var history = currentHistory();
+        var snapshot = { value: codeEditor.value, start: codeEditor.selectionStart, end: codeEditor.selectionEnd };
+        var latest = history.undo[history.undo.length - 1];
+        if (latest && latest.value === snapshot.value) {
+          latest.start = snapshot.start;
+          latest.end = snapshot.end;
+          syncHighlight();
+          return;
+        }
+        var now = Date.now();
+        var canGroup = !forceNew && (inputType === "insertText" || inputType === "deleteContentBackward" || inputType === "deleteContentForward") && history.lastType === inputType && now - history.lastTime < 700 && history.undo.length > 1;
+        if (canGroup) history.undo[history.undo.length - 1] = snapshot;
+        else history.undo.push(snapshot);
+        if (history.undo.length > 200) history.undo.shift();
+        history.redo = [];
+        history.lastType = inputType || "input";
+        history.lastTime = now;
+        syncHighlight();
+        updateHistoryButtons();
+      }
+
+      function applySnapshot(snapshot) {
+        suppressEditorInput = true;
+        codeEditor.value = snapshot.value;
+        codeEditor.setSelectionRange(snapshot.start, snapshot.end);
+        suppressEditorInput = false;
+        syncHighlight();
+        updateHistoryButtons();
+      }
+
+      function undoEditor() {
+        var history = currentHistory();
+        if (history.undo.length <= 1 || labBusy) return;
+        rememberSelection();
+        history.redo.push(history.undo.pop());
+        history.lastType = "";
+        applySnapshot(history.undo[history.undo.length - 1]);
+      }
+
+      function redoEditor() {
+        var history = currentHistory();
+        if (!history.redo.length || labBusy) return;
+        history.undo.push(history.redo.pop());
+        history.lastType = "";
+        applySnapshot(history.undo[history.undo.length - 1]);
+      }
+
+      function replaceSelection(text, start, end, selectionStart, selectionEnd, inputType) {
+        rememberSelection();
+        suppressEditorInput = true;
+        codeEditor.setRangeText(text, start, end, "end");
+        codeEditor.setSelectionRange(selectionStart, selectionEnd);
+        suppressEditorInput = false;
+        recordEditorChange(inputType || "insertText", true);
+      }
+
+      function indentSelection(outdent) {
+        var value = codeEditor.value;
+        var start = codeEditor.selectionStart;
+        var end = codeEditor.selectionEnd;
+        var lineStart = value.lastIndexOf("\n", Math.max(0, start - 1)) + 1;
+        var nextBreak = value.indexOf("\n", end);
+        var lineEnd = nextBreak === -1 ? value.length : nextBreak;
+        var block = value.slice(lineStart, lineEnd);
+        if (!outdent && start === end && block.indexOf("\n") === -1) {
+          var column = start - lineStart;
+          var spaces = " ".repeat(4 - (column % 4));
+          replaceSelection(spaces, start, end, start + spaces.length, start + spaces.length, "insertText");
+          return;
+        }
+        var lines = block.split("\n");
+        var firstChange = 0;
+        var totalChange = 0;
+        var transformed = lines.map(function (line, index) {
+          if (!outdent) {
+            if (index === 0) firstChange = 4;
+            totalChange += 4;
+            return "    " + line;
+          }
+          var match = line.match(/^(?: {1,4}|\t)/);
+          var removed = match ? match[0].length : 0;
+          if (index === 0) firstChange = removed;
+          totalChange += removed;
+          return line.slice(removed);
+        }).join("\n");
+        var newStart = outdent ? Math.max(lineStart, start - firstChange) : start + firstChange;
+        var newEnd = outdent ? Math.max(newStart, end - totalChange) : end + totalChange;
+        replaceSelection(transformed, lineStart, lineEnd, newStart, newEnd, outdent ? "deleteContentBackward" : "insertText");
+      }
+
+      labProblems.forEach(function (problem, index) {
+        var option = document.createElement("option");
+        option.value = String(index);
+        option.textContent = String(index + 1).padStart(2, "0") + " · " + problem.title;
+        problemSelect.appendChild(option);
+      });
+
+      function setBusy(isBusy) {
+        labBusy = isBusy;
+        runSample.disabled = isBusy;
+        testAll.disabled = isBusy;
+        resetCode.disabled = isBusy;
+        problemSelect.disabled = isBusy;
+        updateHistoryButtons();
+      }
+
+      function showProblem(index, saveDraft) {
+        if (saveDraft) rememberSelection();
+        activeProblem = index;
+        var problem = labProblems[index];
+        document.getElementById("labProblemNumber").textContent = String(index + 1).padStart(2, "0") + " / " + String(labProblems.length).padStart(2, "0");
+        document.getElementById("labDifficulty").textContent = problem.difficulty;
+        document.getElementById("labTitle").textContent = problem.title;
+        document.getElementById("labDescription").textContent = problem.description;
+        document.getElementById("labSignature").textContent = problem.signature;
+        document.getElementById("labConstraint").textContent = problem.constraint;
+        var examples = document.getElementById("labExamples");
+        examples.textContent = "";
+        problem.examples.forEach(function (text) {
+          var item = document.createElement("div");
+          item.className = "example";
+          item.textContent = text;
+          examples.appendChild(item);
+        });
+        var snapshot = histories[index].undo[histories[index].undo.length - 1];
+        applySnapshot(snapshot);
+        verdict.className = "verdict";
+        verdict.textContent = "Not run";
+        consoleOutput.textContent = "Run the visible samples first, then use Test all for edge cases.";
+      }
+
+      function createLabWorker() {
+        labWorker = new Worker("data:application/javascript;base64,LyogQnJvd3Nlci1vbmx5IFB5dGhvbiBydW5uZXIgZm9yIHRoZSBpbnRlcnZpZXcgY29kZSBsYWIuICovCnZhciBweW9kaWRlSW5zdGFuY2UgPSBudWxsOwp2YXIgYm9vdFByb21pc2UgPSBudWxsOwp2YXIgb3V0cHV0TGluZXMgPSBbXTsKCnZhciBIQVJORVNTID0gWwogICJpbXBvcnQganNvbiwgdGltZSwgdHJhY2ViYWNrLCBjb250ZXh0bGliLCBpbyIsCiAgInNjb3BlID0ge30iLAogICJjb21waWxlX3N0YXJ0ZWQgPSB0aW1lLnBlcmZfY291bnRlcigpIiwKICAidHJ5OiIsCiAgIiAgICBleGVjKGNvbXBpbGUoX191c2VyX2NvZGUsICc8c29sdXRpb24+JywgJ2V4ZWMnKSwgc2NvcGUpIiwKICAiICAgIGNvbXBpbGVfZXJyb3IgPSBOb25lIiwKICAiZXhjZXB0IEJhc2VFeGNlcHRpb246IiwKICAiICAgIGNvbXBpbGVfZXJyb3IgPSB0cmFjZWJhY2suZm9ybWF0X2V4YygpIiwKICAiY29tcGlsZV9tcyA9ICh0aW1lLnBlcmZfY291bnRlcigpIC0gY29tcGlsZV9zdGFydGVkKSAqIDEwMDAiLAogICJyZXN1bHRzID0gW10iLAogICJpZiBjb21waWxlX2Vycm9yIGlzIE5vbmU6IiwKICAiICAgIHRlc3RzID0ganNvbi5sb2FkcyhfX3Rlc3RzX2pzb24pIiwKICAiICAgIHRhcmdldCA9IHNjb3BlLmdldChfX2Z1bmN0aW9uX25hbWUpIiwKICAiICAgIGlmIG5vdCBjYWxsYWJsZSh0YXJnZXQpOiIsCiAgIiAgICAgICAgY29tcGlsZV9lcnJvciA9IGYnRXhwZWN0ZWQgYSBjYWxsYWJsZSBuYW1lZCB7X19mdW5jdGlvbl9uYW1lfS4nIiwKICAiICAgIGVsc2U6IiwKICAiICAgICAgICBmb3IgaW5kZXgsIGNhc2UgaW4gZW51bWVyYXRlKHRlc3RzKToiLAogICIgICAgICAgICAgICBzdGFydGVkID0gdGltZS5wZXJmX2NvdW50ZXIoKSIsCiAgIiAgICAgICAgICAgIHRyeToiLAogICIgICAgICAgICAgICAgICAgYWN0dWFsID0gdGFyZ2V0KCpjYXNlWydhcmdzJ10pIiwKICAiICAgICAgICAgICAgICAgIGV4cGVjdGVkID0gY2FzZVsnZXhwZWN0ZWQnXSIsCiAgIiAgICAgICAgICAgICAgICBpZiBjYXNlLmdldCgndW5vcmRlcmVkJykgYW5kIGlzaW5zdGFuY2UoYWN0dWFsLCBsaXN0KSBhbmQgaXNpbnN0YW5jZShleHBlY3RlZCwgbGlzdCk6IiwKICAiICAgICAgICAgICAgICAgICAgICBwYXNzZWQgPSBzb3J0ZWQoYWN0dWFsKSA9PSBzb3J0ZWQoZXhwZWN0ZWQpIiwKICAiICAgICAgICAgICAgICAgIGVsc2U6IiwKICAiICAgICAgICAgICAgICAgICAgICBwYXNzZWQgPSBhY3R1YWwgPT0gZXhwZWN0ZWQiLAogICIgICAgICAgICAgICAgICAgcmVzdWx0cy5hcHBlbmQoeydwYXNzZWQnOiBwYXNzZWQsICdhY3R1YWwnOiByZXByKGFjdHVhbCksICdleHBlY3RlZCc6IHJlcHIoZXhwZWN0ZWQpLCAncnVudGltZV9tcyc6ICh0aW1lLnBlcmZfY291bnRlcigpIC0gc3RhcnRlZCkgKiAxMDAwLCAnaGlkZGVuJzogYm9vbChjYXNlLmdldCgnaGlkZGVuJykpfSkiLAogICIgICAgICAgICAgICBleGNlcHQgQmFzZUV4Y2VwdGlvbjoiLAogICIgICAgICAgICAgICAgICAgcmVzdWx0cy5hcHBlbmQoeydwYXNzZWQnOiBGYWxzZSwgJ2Vycm9yJzogdHJhY2ViYWNrLmZvcm1hdF9leGMoKSwgJ3J1bnRpbWVfbXMnOiAodGltZS5wZXJmX2NvdW50ZXIoKSAtIHN0YXJ0ZWQpICogMTAwMCwgJ2hpZGRlbic6IGJvb2woY2FzZS5nZXQoJ2hpZGRlbicpKX0pIiwKICAianNvbi5kdW1wcyh7J2NvbXBpbGVfZXJyb3InOiBjb21waWxlX2Vycm9yLCAnY29tcGlsZV9tcyc6IGNvbXBpbGVfbXMsICdyZXN1bHRzJzogcmVzdWx0c30pIgpdLmpvaW4oIlxuIik7CgpmdW5jdGlvbiBlbnN1cmVQeXRob24oKSB7CiAgaWYgKHB5b2RpZGVJbnN0YW5jZSkgcmV0dXJuIFByb21pc2UucmVzb2x2ZShweW9kaWRlSW5zdGFuY2UpOwogIGlmIChib290UHJvbWlzZSkgcmV0dXJuIGJvb3RQcm9taXNlOwogIGJvb3RQcm9taXNlID0gUHJvbWlzZS5yZXNvbHZlKCkudGhlbihmdW5jdGlvbiAoKSB7CiAgICBpbXBvcnRTY3JpcHRzKCJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yNS4wL2Z1bGwvcHlvZGlkZS5qcyIpOwogICAgcmV0dXJuIGxvYWRQeW9kaWRlKHsKICAgICAgc3Rkb3V0OiBmdW5jdGlvbiAodGV4dCkgeyBvdXRwdXRMaW5lcy5wdXNoKFN0cmluZyh0ZXh0KSk7IH0sCiAgICAgIHN0ZGVycjogZnVuY3Rpb24gKHRleHQpIHsgb3V0cHV0TGluZXMucHVzaChTdHJpbmcodGV4dCkpOyB9CiAgICB9KTsKICB9KS50aGVuKGZ1bmN0aW9uIChydW50aW1lKSB7CiAgICBweW9kaWRlSW5zdGFuY2UgPSBydW50aW1lOwogICAgcG9zdE1lc3NhZ2UoeyB0eXBlOiAicmVhZHkiIH0pOwogICAgcmV0dXJuIHJ1bnRpbWU7CiAgfSk7CiAgcmV0dXJuIGJvb3RQcm9taXNlOwp9CgpzZWxmLm9ubWVzc2FnZSA9IGZ1bmN0aW9uIChldmVudCkgewogIHZhciBtZXNzYWdlID0gZXZlbnQuZGF0YSB8fCB7fTsKICBpZiAobWVzc2FnZS50eXBlID09PSAiaW5pdCIpIHsKICAgIGVuc3VyZVB5dGhvbigpLmNhdGNoKGZ1bmN0aW9uIChlcnJvcikgewogICAgICBwb3N0TWVzc2FnZSh7IHR5cGU6ICJib290LWVycm9yIiwgZXJyb3I6IFN0cmluZyhlcnJvciAmJiBlcnJvci5tZXNzYWdlID8gZXJyb3IubWVzc2FnZSA6IGVycm9yKSB9KTsKICAgIH0pOwogICAgcmV0dXJuOwogIH0KICBpZiAobWVzc2FnZS50eXBlICE9PSAicnVuIikgcmV0dXJuOwogIG91dHB1dExpbmVzID0gW107CiAgZW5zdXJlUHl0aG9uKCkudGhlbihmdW5jdGlvbiAocnVudGltZSkgewogICAgcnVudGltZS5nbG9iYWxzLnNldCgiX191c2VyX2NvZGUiLCBTdHJpbmcobWVzc2FnZS5jb2RlIHx8ICIiKSk7CiAgICBydW50aW1lLmdsb2JhbHMuc2V0KCJfX2Z1bmN0aW9uX25hbWUiLCBTdHJpbmcobWVzc2FnZS5mdW5jdGlvbk5hbWUgfHwgIiIpKTsKICAgIHJ1bnRpbWUuZ2xvYmFscy5zZXQoIl9fdGVzdHNfanNvbiIsIEpTT04uc3RyaW5naWZ5KG1lc3NhZ2UudGVzdHMgfHwgW10pKTsKICAgIHJldHVybiBydW50aW1lLnJ1blB5dGhvbkFzeW5jKEhBUk5FU1MpOwogIH0pLnRoZW4oZnVuY3Rpb24gKHJhdykgewogICAgcG9zdE1lc3NhZ2UoeyB0eXBlOiAicmVzdWx0IiwgcnVuSWQ6IG1lc3NhZ2UucnVuSWQsIHBheWxvYWQ6IEpTT04ucGFyc2UoU3RyaW5nKHJhdykpLCBvdXRwdXQ6IG91dHB1dExpbmVzLmpvaW4oIlxuIikgfSk7CiAgfSkuY2F0Y2goZnVuY3Rpb24gKGVycm9yKSB7CiAgICBwb3N0TWVzc2FnZSh7IHR5cGU6ICJyZXN1bHQiLCBydW5JZDogbWVzc2FnZS5ydW5JZCwgcGF5bG9hZDogeyBjb21waWxlX2Vycm9yOiBTdHJpbmcoZXJyb3IgJiYgZXJyb3Iuc3RhY2sgPyBlcnJvci5zdGFjayA6IGVycm9yKSwgcmVzdWx0czogW10gfSwgb3V0cHV0OiBvdXRwdXRMaW5lcy5qb2luKCJcbiIpIH0pOwogIH0pOwp9Owo=");
+        workerReady = false;
+        runtimeState.className = "runtime-state loading";
+        runtimeState.textContent = "Loading Python…";
+        labWorker.onmessage = function (event) {
+          var message = event.data || {};
+          if (message.type === "ready") {
+            workerReady = true;
+            runtimeState.className = "runtime-state ready";
+            runtimeState.textContent = "Python ready";
+            if (queuedRun) {
+              var pending = queuedRun;
+              queuedRun = null;
+              startWorkerRun(pending);
+            }
+            return;
+          }
+          if (message.type === "boot-error") {
+            if (labWorker) labWorker.terminate();
+            labWorker = null;
+            workerReady = false;
+            runtimeState.className = "runtime-state";
+            runtimeState.textContent = "Python unavailable · retry run";
+            failRun("Python could not load. Check your connection and try again.\n" + message.error);
+            return;
+          }
+          if (message.type === "result" && message.runId === activeRunId) {
+            clearTimeout(timeoutHandle);
+            renderResult(message);
+          }
+        };
+        labWorker.onerror = function () {
+          failRun("The Python runner stopped unexpectedly. Try running again.");
+        };
+        labWorker.postMessage({ type: "init" });
+      }
+
+      function startWorkerRun(payload) {
+        timeoutHandle = setTimeout(function () {
+          if (labWorker) labWorker.terminate();
+          labWorker = null;
+          workerReady = false;
+          runtimeState.className = "runtime-state";
+          runtimeState.textContent = "Python stopped";
+          failRun("Time limit exceeded (5,000 ms). The runner was stopped; your code is still in the editor.");
+        }, 5000);
+        labWorker.postMessage(payload);
+      }
+
+      function failRun(message) {
+        clearTimeout(timeoutHandle);
+        queuedRun = null;
+        setBusy(false);
+        verdict.className = "verdict fail";
+        verdict.textContent = "Runner error";
+        consoleOutput.textContent = message;
+      }
+
+      function formatRuntime(milliseconds) {
+        if (milliseconds < 0.01) return "<0.01 ms";
+        if (milliseconds < 1) return milliseconds.toFixed(2) + " ms";
+        return milliseconds.toFixed(1) + " ms";
+      }
+
+      function renderResult(message) {
+        setBusy(false);
+        var payload = message.payload || {};
+        if (payload.compile_error) {
+          verdict.className = "verdict fail";
+          verdict.textContent = "Error";
+          consoleOutput.textContent = (message.output ? "Output:\n" + message.output + "\n\n" : "") + payload.compile_error;
+          return;
+        }
+        var results = payload.results || [];
+        var passed = results.filter(function (result) { return result.passed; }).length;
+        var totalRuntime = Number(payload.compile_ms || 0);
+        var lines = [];
+        if (message.output) lines.push("Output:\n" + message.output, "");
+        results.forEach(function (result, index) {
+          totalRuntime += Number(result.runtime_ms || 0);
+          var label = result.hidden ? "Hidden test " + (index + 1) : "Sample " + (index + 1);
+          if (result.passed) {
+            lines.push("PASS  " + label + "  ·  " + formatRuntime(result.runtime_ms || 0));
+          } else if (result.error) {
+            lines.push("FAIL  " + label + "  ·  " + formatRuntime(result.runtime_ms || 0));
+            lines.push(result.error.trim());
+          } else {
+            lines.push("FAIL  " + label + "  ·  " + formatRuntime(result.runtime_ms || 0));
+            lines.push("  expected: " + result.expected);
+            lines.push("  received: " + result.actual);
+          }
+        });
+        lines.push("", passed + " / " + results.length + " tests passed · " + formatRuntime(totalRuntime) + " total");
+        consoleOutput.textContent = lines.join("\n");
+        if (passed === results.length) {
+          verdict.className = "verdict pass";
+          verdict.textContent = "Accepted · " + formatRuntime(totalRuntime);
+        } else {
+          verdict.className = "verdict fail";
+          verdict.textContent = "Wrong answer · " + passed + "/" + results.length;
+        }
+      }
+
+      function runTests(includeHidden) {
+        rememberSelection();
+        var problem = labProblems[activeProblem];
+        var tests = includeHidden ? problem.tests : problem.tests.filter(function (test) { return !test.hidden; });
+        activeRunId += 1;
+        var payload = { type: "run", runId: activeRunId, code: codeEditor.value, functionName: problem.functionName, tests: tests };
+        setBusy(true);
+        verdict.className = "verdict";
+        verdict.textContent = includeHidden ? "Testing…" : "Running…";
+        consoleOutput.textContent = workerReady ? "Executing in Python…" : "Loading the Python runtime for this session…";
+        if (!labWorker) createLabWorker();
+        if (workerReady) startWorkerRun(payload); else queuedRun = payload;
+      }
+
+      problemSelect.addEventListener("change", function () { showProblem(Number(problemSelect.value), true); });
+      undoCode.addEventListener("click", function () { undoEditor(); codeEditor.focus(); });
+      redoCode.addEventListener("click", function () { redoEditor(); codeEditor.focus(); });
+      resetCode.addEventListener("click", function () {
+        var starter = labProblems[activeProblem].starter;
+        replaceSelection(starter, 0, codeEditor.value.length, starter.length, starter.length, "reset");
+        verdict.className = "verdict";
+        verdict.textContent = "Reset";
+        consoleOutput.textContent = "Starter code restored. Undo is available.";
+        codeEditor.focus();
+      });
+      runSample.addEventListener("click", function () { runTests(false); });
+      testAll.addEventListener("click", function () { runTests(true); });
+      codeEditor.addEventListener("beforeinput", function (event) {
+        if (event.inputType === "historyUndo") {
+          event.preventDefault();
+          undoEditor();
+          return;
+        }
+        if (event.inputType === "historyRedo") {
+          event.preventDefault();
+          redoEditor();
+          return;
+        }
+        rememberSelection();
+      });
+      codeEditor.addEventListener("input", function (event) {
+        recordEditorChange(event.inputType || "input", false);
+      });
+      codeEditor.addEventListener("scroll", syncEditorScroll);
+      codeEditor.addEventListener("keydown", function (event) {
+        var command = event.ctrlKey || event.metaKey;
+        var key = event.key.toLowerCase();
+        if (command && key === "z") {
+          event.preventDefault();
+          if (event.shiftKey) redoEditor(); else undoEditor();
+          return;
+        }
+        if (event.ctrlKey && !event.metaKey && key === "y") {
+          event.preventDefault();
+          redoEditor();
+          return;
+        }
+        if (event.key === "Tab") {
+          event.preventDefault();
+          indentSelection(event.shiftKey);
+          return;
+        }
+        if (event.key === "Enter" && !command && !event.altKey) {
+          event.preventDefault();
+          var start = codeEditor.selectionStart;
+          var end = codeEditor.selectionEnd;
+          var value = codeEditor.value;
+          var lineStart = value.lastIndexOf("\n", Math.max(0, start - 1)) + 1;
+          var lineBefore = value.slice(lineStart, start);
+          var baseIndent = (lineBefore.match(/^\s*/) || [""])[0];
+          var extraIndent = /:\s*(?:#.*)?$/.test(lineBefore) ? "    " : "";
+          var insertion = "\n" + baseIndent + extraIndent;
+          replaceSelection(insertion, start, end, start + insertion.length, start + insertion.length, "insertLineBreak");
+          return;
+        }
+        if (command && event.key === "Enter") {
+          event.preventDefault();
+          runTests(event.shiftKey);
+        }
+      });
+      showProblem(0, false);
+    })();
+  </script>
+</body>
+</html>
